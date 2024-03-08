@@ -17,10 +17,6 @@ jobs:
     - uses: devops-actions/actionlint@c0ee017f8abef55d843a647cd737b87a1976eb69 #v0.1.1
       continue-on-error: true
       id: action-lint
-    # Run ActionLint, will fail on errors
-    - uses: devops-actions/actionlint@c0ee017f8abef55d843a647cd737b87a1976eb69 # Using a specific commit SHA
-      continue-on-error: true
-      id: action-lint
     - uses: actions/upload-artifact@v3
       with:
         name: actionlint-results
