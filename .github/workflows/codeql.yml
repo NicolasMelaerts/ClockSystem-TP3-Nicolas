@@ -19,6 +19,9 @@ on:
   schedule:
     - cron: '37 3 * * 5'
 
+permissions:
+  contents: read
+
 jobs:
   analyze:
     name: Analyze
@@ -53,8 +56,13 @@ jobs:
         image: selenium/standalone-chrome:latest
         options: -e VNC_SERVER=true -e VNC_PORT=5900
     steps:
+    - name: Harden Runner
+      uses: step-security/harden-runner@63c24ba6bd7ba022e95695ff85de572c04a18142 # v2.7.0
+      with:
+        egress-policy: audit
+
     - name: Checkout repository
-      uses: actions/checkout@v4
+      uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
 
     - name: Setup Gradle
       uses: gradle/actions/setup-gradle@417ae3ccd767c252f5661f1ace9f835f9654f2b5 # v3.1.0
@@ -67,7 +75,7 @@ jobs:
 
     # Initializes the CodeQL tools for scanning.
     - name: Initialize CodeQL
-      uses: github/codeql-action/init@v3
+      uses: github/codeql-action/init@8a470fddafa5cbb6266ee11b37ef4d8aae19c571 # v3.24.6
       with:
         languages: ${{ matrix.language }}
         queries: security-experimental,security-extended,security-and-quality
@@ -82,7 +90,7 @@ jobs:
     # Autobuild attempts to build any compiled languages (C/C++, C#, Go, Java, or Swift).
     # If this step fails, then you should remove it and run the build manually (see below)
     - name: Autobuild
-      uses: github/codeql-action/autobuild@v3
+      uses: github/codeql-action/autobuild@8a470fddafa5cbb6266ee11b37ef4d8aae19c571 # v3.24.6
 
     # ℹ️ Command-line programs to run using the OS shell.
     # 📚 See https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#jobsjob_idstepsrun
@@ -95,6 +103,6 @@ jobs:
     #     ./location_of_script_within_repo/buildscript.sh
 
     - name: Perform CodeQL Analysis
-      uses: github/codeql-action/analyze@v3
+      uses: github/codeql-action/analyze@8a470fddafa5cbb6266ee11b37ef4d8aae19c571 # v3.24.6
       with:
         category: "/language:${{ matrix.language }}"
