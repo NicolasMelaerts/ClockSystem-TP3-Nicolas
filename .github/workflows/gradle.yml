@@ -61,7 +61,7 @@ jobs:
           path: app/build/reports/tests
     # Name of the artifact to upload.
     # Optional. Default is 'artifact'
-        :
+        
   # dependency-submission:
 
   #   runs-on: ubuntu-latest
