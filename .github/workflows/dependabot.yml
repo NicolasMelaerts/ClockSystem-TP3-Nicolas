@@ -1,0 +1,32 @@
+version: 2
+updates:
+  # Gradle dependencies
+  - package-ecosystem: "gradle"
+    directory: "/" # Adjust if your Gradle files are in a subdirectory
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 10
+    assignees:
+      - "your-github-username"
+    reviewers:
+      - "your-github-username"
+    labels:
+      - "dependencies"
+      - "gradle"
+    ignore:
+      - dependency-name: "org.springframework.boot"
+        versions: ["5.x"] # Example: ignore specific versions
+
+  # GitHub Actions dependencies
+  - package-ecosystem: "github-actions"
+    directory: "/" # Dependabot will check `.github/workflows/`
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 5
+    assignees:
+      - "your-github-username"
+    reviewers:
+      - "your-github-username"
+    labels:
+      - "dependencies"
+      - "github-actions"
