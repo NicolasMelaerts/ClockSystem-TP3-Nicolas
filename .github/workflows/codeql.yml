@@ -1,0 +1,63 @@
+name: CodeQl Advance
+
+on:
+  pull_request:
+    branches: [ "main" ]
+
+env:
+  DISPLAY: ":99.0"
+
+  
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    services:
+       xvfb:
+         image: selenium/standalone-chrome:latest
+         options: -e VNC_SERVER=true -e VNC_PORT=5900
+    steps:
+    - name: Start Xvfb
+      run: Xvfb $DISPLAY -ac -screen 0 1600x1200x24 > /dev/null 2>&1 &
+    - uses: actions/checkout@v4
+    - name: Set up JDK 21
+      uses: actions/setup-java@v4
+      with:
+        java-version: '21'
+        distribution: 'temurin'
+
+    # Configure Gradle for optimal use in GitHub Actions, including caching of downloaded dependencies.
+    # See: https://github.com/gradle/actions/blob/main/setup-gradle/README.md
+    # - name: Setup Gradle
+    #   uses: gradle/actions/setup-gradle@af1da67850ed9a4cedd57bfd976089dd991e2582 # v4.0.0
+
+    # - name: Build with Gradle Wrapper
+    #   run: ./gradlew build
+
+    # NOTE: The Gradle Wrapper is the default and recommended way to run Gradle (https://docs.gradle.org/current/userguide/gradle_wrapper.html).
+    # If your project does not have the Gradle Wrapper configured, you can use the following configuration to run Gradle with a specified version.
+    #
+    - name: Setup Gradle
+      uses: gradle/actions/setup-gradle@af1da67850ed9a4cedd57bfd976089dd991e2582 # v4.0.0
+      with:
+        gradle-version: '8.9'
+    
+    - name: Build with Gradle 8.9
+      run: gradle build
+
+    - name: Initialize CodeQL
+      uses: github/codeql-action/init@v3
+      with:
+        languages: ’java’
+        queries: security-experimental,security-extended,security-and-quality
+
+    - name: Perform CodeQL Analysis
+      uses: github/codeql-action/analyze@v3
+      with:
+        category: "/language:java"
+
+
+
+      
