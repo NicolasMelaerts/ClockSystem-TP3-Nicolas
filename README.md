@@ -1,4 +1,4 @@
-https://github.com/aref98/ClockSystem/actions/workflows/gradle.yml/badge.svg
+![](https://github.com/aref98/ClockSystem/actions/workflows/gradle.yml/badge.svg)
 
 
 # ClockSystem
