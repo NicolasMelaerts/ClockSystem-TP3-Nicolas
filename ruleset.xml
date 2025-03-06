@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ruleset name="My Custom PMD Ruleset" xmlns="http://pmd.sourceforge.net/ruleset/1.0.0">
+    <description>
+        This is my custom PMD ruleset to enforce Java code quality.
+    </description>
+
+    <!-- Référence aux règles Java de base -->
+    <rule ref="rulesets/java/basic.xml"/>
+
+    <!-- Ajouter une autre règle personnalisée -->
+    <rule ref="rulesets/java/design.xml"/>
+
+    <!-- Exemple d'ajout de règles spécifiques -->
+    <rule ref="rulesets/java/unusedcode.xml"/>
+</ruleset>
