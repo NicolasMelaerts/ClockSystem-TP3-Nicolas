@@ -8,11 +8,11 @@ on:
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
     permissions:
       contents: read
 
+    # Services pour exécuter Xvfb en mode headless
     services:
       xvfb:
         image: selenium/standalone-chrome:latest
@@ -23,32 +23,31 @@ jobs:
 
     steps:
     - uses: actions/checkout@v4
-    
+
+    # Configuration du JDK 21
     - name: Set up JDK 21
       uses: actions/setup-java@v4
       with:
         java-version: '21'
         distribution: 'temurin'
 
-    # Configure Gradle for optimal use in GitHub Actions, including caching of downloaded dependencies.
+    # Configuration de Gradle
     - name: Setup Gradle
       uses: gradle/actions/setup-gradle@v4
       with:
         gradle-version: '8.10'
 
-    # Build the project using Gradle without relying on the Gradle Wrapper
-    - name: Build with Gradle
-      run: gradle build
-
-    # Start Xvfb to allow GUI tests to run in headless mode
+    # Lancer Xvfb avant de démarrer les tests
     - name: Start Xvfb
       run: Xvfb $DISPLAY -ac -screen 0 1600x1200x24 > /dev/null 2>&1 &
 
-    # Upload test report to GitHub Actions
+    # Construction du projet avec Gradle
+    - name: Build with Gradle
+      run: gradle build
+
+    # Publier le rapport des tests comme artefact
     - name: Upload test report
       uses: actions/upload-artifact@v4
       with:
         name: test-report
         path: app/build/reports/tests/test/index.html
-
-  # Removed the dependency-submission job as per instructions
