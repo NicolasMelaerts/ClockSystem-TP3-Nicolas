@@ -1,43 +1,61 @@
-name: CodeQL Analysis
+
+name: Java CI with Gradle
 
 on:
   push:
     branches: [ "main" ]
   pull_request:
     branches: [ "main" ]
-  schedule:
-    - cron: '29 7 * * 6'  # Exécution chaque samedi à 07:29 UTC
 
 jobs:
-  analyze:
-    name: Analyze Java Code
+  build:
     runs-on: ubuntu-latest
     permissions:
-      security-events: write
       contents: read
 
+    # Services pour exécuter Xvfb en mode headless
+    services:
+      xvfb:
+        image: selenium/standalone-chrome:latest
+        options: -e VNC_SERVER=true -e VNC_PORT=5900
+
+    env:
+      DISPLAY: ":99.0"  # Set display for Xvfb to avoid GUI issues in headless environment
+
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v4
+    - uses: actions/checkout@v4
 
-    # Initialisation de CodeQL
-    - name: Initialize CodeQL
-      uses: github/codeql-action/init@v3
+    # Configuration du JDK 21
+    - name: Set up JDK 21
+      uses: actions/setup-java@v4
       with:
-        languages: java
-        build-mode: manual  # On suppose que le projet est déjà compilé
+        java-version: '21'
+        distribution: 'temurin'
 
-    # Exécution de l’analyse CodeQL
-    - name: Perform CodeQL Analysis
-      uses: github/codeql-action/analyze@v3
+    # Configuration de Gradle
+    - name: Setup Gradle
+      uses: gradle/actions/setup-gradle@v4
       with:
-        category: "/language:java"
+        gradle-version: '8.10'
 
-    # Upload du rapport CodeQL
-    - name: Upload CodeQL Report
+    # Lancer Xvfb avant de démarrer les tests
+    - name: Start Xvfb
+      run: Xvfb $DISPLAY -ac -screen 0 1600x1200x24 > /dev/null 2>&1 &
+
+    # Construction du projet avec Gradle
+    - name: Build with Gradle
+      run: gradle build
+
+    # Exécution des tests avec un navigateur Selenium (ou autre outil graphique)
+    - name: Run Selenium Tests
+      run: |
+        # Exemple si tu as des tests Selenium qui nécessitent une interface graphique
+        # Cette commande lance Selenium dans un environnement headless
+        gradle test --tests "com.example.YourTest"  # Remplace avec ton propre test
+
+    # Publier le rapport des tests comme artefact
+    - name: Upload test report
       uses: actions/upload-artifact@v4
       with:
-        name: codeql-report
-        path: codeql-results.sarif
-
-
+        name: test-report
+        path: app/build/reports/tests/test/index.html
