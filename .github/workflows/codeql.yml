@@ -52,6 +52,8 @@ jobs:
       with:
         languages: java
         build-mode: manual  # Nécessaire car CodeQL ne peut pas auto-builder tous les projets
+        # Ajouter la commande de construction ici pour que CodeQL puisse analyser
+        build-command: gradle build
 
     # Exécution de l'analyse CodeQL
     - name: Run CodeQL Analysis
@@ -63,4 +65,3 @@ jobs:
       with:
         name: codeql-report
         path: codeql-results.sarif
-
