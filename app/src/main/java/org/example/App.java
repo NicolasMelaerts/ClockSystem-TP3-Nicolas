@@ -13,6 +13,7 @@ public class App {
 
 
     public static void main(String[] args) throws FontFormatException, IOException {
+        System.out.println("test workflow");
 
         ClockFrame clock = new ClockFrame();
         clock.setVisible(true); }
