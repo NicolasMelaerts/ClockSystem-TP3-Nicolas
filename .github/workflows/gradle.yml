@@ -57,6 +57,7 @@ jobs:
       uses: pmd/pmd-github-action@v2  # Utiliser la version correcte
       with:
         rulesets: 'ruleset.xml'
+        max-violations: 10
 
     # Optionnel : Publier le rapport PMD en tant qu'artefact
     - name: Upload PMD report
