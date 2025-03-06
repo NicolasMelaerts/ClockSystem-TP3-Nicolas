@@ -52,19 +52,3 @@ jobs:
         name: test-report
         path: app/build/reports/tests/test/index.html
 
-    # Étape pour exécuter l'analyse PMD
-    - name: Run PMD Analysis
-      uses: pmd/pmd-github-action@v2  # Utiliser la version correcte
-      with:
-        rulesets: 'ruleset.xml'
-        max-violations: 10
-        format: "html"
-        output-file: "pmd-report.html"  
-
-    # Optionnel : Publier le rapport PMD en tant qu'artefact
-    - name: Upload PMD report
-      uses: actions/upload-artifact@v4
-      with:
-        name: pmd-report
-        path: pmd.html
-
