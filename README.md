@@ -4,7 +4,10 @@
 
 ![PMD Analysis](https://github.com/NicolasMelaerts/ClockSystem-TP3-Nicolas/actions/workflows/pmd.yml/badge.svg)
 
-![PMD CodeQL](https://github.com/NicolasMelaerts/ClockSystem-TP3-Nicolas/actions/workflows/codeql.yml/badge.svg)
+![Build Status](https://github.com/NicolasMelaerts/ClockSystem-TP3-Nicolas/actions/workflows/codeql.yml/badge.svg)
+
+OpenSSF Scorecard Analysis: ![Build Status](https://github.com/NicolasMelaerts/ClockSystem-TP3-Nicolas/actions/workflows/scorecard.yml/badge.svg) [![OpenSSF Scorecard](https://api.scorecard.dev/projects/github.com/NicolasMelaerts/ClockSystem-TP3-Nicolas/badge)](https://scorecard.dev/viewer/?uri=github.com/NicolasMelaerts/ClockSystem-TP3-Nicolas)
+
 
 This is a gradle-based Java project for a Clock with Swing GUI and JUnit5 unit tests. It has been created and used by Tom Mens for educational purposes at the University of Mons.
 
