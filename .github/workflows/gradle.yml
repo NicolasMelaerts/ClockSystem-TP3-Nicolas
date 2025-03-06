@@ -56,7 +56,7 @@ jobs:
     - name: Run PMD Analysis
       uses: pmd/pmd-github-action@v2  # Utiliser la version correcte
       with:
-        rulesets: 'ruleset.xml'  # Assurez-vous que ce fichier existe dans votre projet
+        rulesets: 'java-basic'  # Assurez-vous que ce fichier existe dans votre projet
 
     # Optionnel : Publier le rapport PMD en tant qu'artefact
     - name: Upload PMD report
