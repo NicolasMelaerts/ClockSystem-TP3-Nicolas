@@ -51,3 +51,17 @@ jobs:
       with:
         name: test-report
         path: app/build/reports/tests/test/index.html
+
+    # Step to run PMD analysis
+    - name: Run PMD Analysis
+      uses: pmd/pmd-github-action@v2.0.2  # Make sure to use the latest version
+      with:
+        rulesets: 'java-basic'  # You can customize this if needed
+
+    # Optional: Upload the PMD report as an artifact
+    - name: Upload PMD report
+      uses: actions/upload-artifact@v4
+      with:
+        name: pmd-report
+        path: pmd.html
+
