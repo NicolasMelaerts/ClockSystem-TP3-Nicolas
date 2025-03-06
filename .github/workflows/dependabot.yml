@@ -1,7 +1,7 @@
 version: 2
 updates:
   - package-ecosystem: "gradle"
-    directory: "/"
+    directory: "/app/build.gradle.kts"
     schedule:
       interval: "weekly"
   - package-ecosystem: "github-actions"
