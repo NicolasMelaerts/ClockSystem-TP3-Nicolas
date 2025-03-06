@@ -31,12 +31,12 @@ jobs:
     - name: Build with Gradle
       run: gradle build
 
-    # Publish test results as an artifact
-    - name: Upload test results
-      uses: actions/upload-artifact@v3
+    # Publishing test results as an artifact
+    - name: Upload test report
+      uses: actions/upload-artifact@v4
       with:
         name: test-report
-        path: build/test-results/test
+        path: app/build/reports/tests/test/index.html
 
   # Removed the dependency-submission job as per instructions
 
