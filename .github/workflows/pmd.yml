@@ -1,0 +1,13 @@
+- name: Run PMD Analysis
+  uses: pmd/pmd-github-action@v2
+  with:
+    rulesets: 'ruleset.xml'
+    format: "html"  # Force la génération d'un rapport en HTML
+    output-file: "pmd-report.html"  # Nom explicite du fichier de sortie
+
+- name: Upload PMD report
+  uses: actions/upload-artifact@v4
+  with:
+    name: pmd-report
+    path: pmd-report.html  # Chemin correct
+
