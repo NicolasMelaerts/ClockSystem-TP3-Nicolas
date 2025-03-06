@@ -2,7 +2,7 @@
 
 ![Build Status](https://github.com/NicolasMelaerts/ClockSystem-TP3-Nicolas/actions/workflows/gradle.yml/badge.svg)
 
-![PMD Analysis](https://github.com/NicolasMelaerts/ClockSystem-TP3-Nicolas/actions/workflows/pmd.yml/badge.svg)
+![PMD Analysis](https://github.com/NicolasMelaerts/ClockSystem-TP3-Nicolas/actions/workflows/gradle.yml/badge.svg)
 
 
 
