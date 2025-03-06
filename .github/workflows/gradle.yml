@@ -54,7 +54,7 @@ jobs:
 
     # Step to run PMD analysis
     - name: Run PMD Analysis
-      uses: pmd/pmd-github-action@v2.0.2  # Make sure to use the latest version
+      uses: pmd/pmd-github-action@v1  # Make sure to use the latest version
       with:
         rulesets: 'java-basic'  # You can customize this if needed
 
