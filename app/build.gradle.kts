@@ -22,7 +22,7 @@ dependencies {
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 
     // This dependency is used by the application.
-    implementation("com.google.guava:guava:32.1.2-jre")
+    implementation("com.google.guava:guava:33.4.0-jre")
 }
 
 // Apply a specific Java toolchain to ease working on different environments.
