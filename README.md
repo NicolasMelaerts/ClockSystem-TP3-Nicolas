@@ -2,6 +2,9 @@
 
 ![Build Status](https://github.com/NicolasMelaerts/ClockSystem-TP3-Nicolas/actions/workflows/gradle.yml/badge.svg)
 
+![PMD Analysis](https://github.com/NicolasMelaerts/ClockSystem-TP3-Nicolas/actions/workflows/pmd.yml/badge.svg)
+
+
 
 This is a gradle-based Java project for a Clock with Swing GUI and JUnit5 unit tests. It has been created and used by Tom Mens for educational purposes at the University of Mons.
 
