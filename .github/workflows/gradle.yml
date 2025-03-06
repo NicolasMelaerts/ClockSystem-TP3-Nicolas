@@ -58,6 +58,8 @@ jobs:
       with:
         rulesets: 'ruleset.xml'
         max-violations: 10
+        format: "html"
+        output-file: "pmd-report.html"  
 
     # Optionnel : Publier le rapport PMD en tant qu'artefact
     - name: Upload PMD report
