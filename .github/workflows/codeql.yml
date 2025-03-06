@@ -40,7 +40,10 @@ jobs:
     # Configuration de Gradle
     - name: Setup Gradle
       uses: gradle/actions/setup-gradle@v3
-
+      
+    # Lancer Xvfb avant de démarrer les tests
+    - name: Start Xvfb
+      run: Xvfb $DISPLAY -ac -screen 0 1600x1200x24 > /dev/null 2>&1 &
 
     # Compilation du projet pour générer les fichiers nécessaires à CodeQL
     - name: Build project with Gradle
