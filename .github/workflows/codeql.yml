@@ -1,67 +1,82 @@
-name: Java CI with Gradle and CodeQL Analysis
+# For most projects, this workflow file will not need changing; you simply need
+# to commit it to your repository.
+#
+# You may wish to alter this file to override the set of languages analyzed,
+# or to provide custom queries or build logic.
+#
+# ******** NOTE ********
+# We have attempted to detect the languages in your repository. Please check
+# the `language` matrix defined below to confirm you have the correct set of
+# supported CodeQL languages.
+#
+name: "CodeQL Advanced"
 
+env:
+  DISPLAY: ":99.0" 
+  
 on:
   push:
     branches: [ "main" ]
   pull_request:
     branches: [ "main" ]
+  schedule:
+    - cron: '24 9 * * 1'
 
 jobs:
-  build:
-    runs-on: ubuntu-latest
+  analyze:
+    name: Analyze (${{ matrix.language }})
+    
+    runs-on:  'ubuntu-latest'
     permissions:
+    
+      # required for all workflows
       contents: read
-      security-events: write  # Nécessaire pour la création de rapports de sécurité
+      security-events: write
 
-    # Services pour exécuter Xvfb en mode headless
+      # required to fetch internal or private CodeQL packs
+      packages: read
+
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+        - language: java-kotlin
+          build-mode: none 
     services:
       xvfb:
         image: selenium/standalone-chrome:latest
         options: -e VNC_SERVER=true -e VNC_PORT=5900
-
-    env:
-      DISPLAY: ":99.0"  # Set display for Xvfb to avoid GUI issues in headless environment
-
+    
     steps:
-    - uses: actions/checkout@v4
+    - name: Checkout repository
+      uses: actions/checkout@v4
 
-    # Configuration du JDK 21
     - name: Set up JDK 21
       uses: actions/setup-java@v4
       with:
         java-version: '21'
         distribution: 'temurin'
 
-    # Configuration de Gradle
-    - name: Setup Gradle
-      uses: gradle/actions/setup-gradle@v4
-      with:
-        gradle-version: '8.10'
-
-    # Lancer Xvfb avant de démarrer les tests
-    - name: Start Xvfb
-      run: Xvfb $DISPLAY -ac -screen 0 1600x1200x24 > /dev/null 2>&1 &
-
-    # Construction du projet avec Gradle
-    - name: Build with Gradle
-      run: gradle build
-
-    # Initialisation de CodeQL
+    # Initializes the CodeQL tools for scanning.
     - name: Initialize CodeQL
       uses: github/codeql-action/init@v3
       with:
-        languages: 'java'
-        build-mode: manual  # Nécessaire car CodeQL ne peut pas auto-builder tous les projets
-        # Ajouter la commande de construction ici pour que CodeQL puisse analyser
-        build-command: gradle build
+        languages: ${{ matrix.language }}
+        build-mode: ${{ matrix.build-mode }}
+        queries: security-experimental,security-extended,security-and-quality
 
-    # Exécution de l'analyse CodeQL
-    - name: Run CodeQL Analysis
-      uses: github/codeql-action/analyze@v3
-
-    # Publier le rapport CodeQL
-    - name: Upload CodeQL Report
-      uses: actions/upload-artifact@v4
+    - name: Start Xvfb
+      run: Xvfb $DISPLAY -ac -screen 0 1600x1200x24 > /dev/null 2>&1 &
+    
+    - name: Setup Gradle 8.10
+      uses: gradle/actions/setup-gradle@v4
       with:
-        name: codeql-report
-        path: codeql-results.sarif
+        gradle-version: "8.10" # Quotes required to prevent YAML converting to number
+        
+    - name: Build Project
+      run: gradle build
+
+    - name: Perform CodeQL Analysis
+      uses: github/codeql-action/analyze@v3
+      with:
+        category: "/language:${{matrix.language}}"
