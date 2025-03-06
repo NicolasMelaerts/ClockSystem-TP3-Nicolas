@@ -50,7 +50,7 @@ jobs:
     - name: Initialize CodeQL
       uses: github/codeql-action/init@v3
       with:
-        languages: java
+        languages: 'java'
         build-mode: manual  # Nécessaire car CodeQL ne peut pas auto-builder tous les projets
         # Ajouter la commande de construction ici pour que CodeQL puisse analyser
         build-command: gradle build
