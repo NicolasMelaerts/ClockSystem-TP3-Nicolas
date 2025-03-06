@@ -13,8 +13,17 @@ jobs:
     permissions:
       contents: read
 
+    services:
+      xvfb:
+        image: selenium/standalone-chrome:latest
+        options: -e VNC_SERVER=true -e VNC_PORT=5900
+
+    env:
+      DISPLAY: ":99.0"  # Set display for Xvfb to avoid GUI issues in headless environment
+
     steps:
     - uses: actions/checkout@v4
+    
     - name: Set up JDK 21
       uses: actions/setup-java@v4
       with:
@@ -31,7 +40,11 @@ jobs:
     - name: Build with Gradle
       run: gradle build
 
-    # Publishing test results as an artifact
+    # Start Xvfb to allow GUI tests to run in headless mode
+    - name: Start Xvfb
+      run: Xvfb $DISPLAY -ac -screen 0 1600x1200x24 > /dev/null 2>&1 &
+
+    # Upload test report to GitHub Actions
     - name: Upload test report
       uses: actions/upload-artifact@v4
       with:
@@ -39,4 +52,3 @@ jobs:
         path: app/build/reports/tests/test/index.html
 
   # Removed the dependency-submission job as per instructions
-
