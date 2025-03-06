@@ -1,5 +1,4 @@
-
-name: Java CI with Gradle
+name: Java CI with Gradle and CodeQL Analysis
 
 on:
   push:
@@ -12,6 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: read
+      security-events: write  # Nécessaire pour la création de rapports de sécurité
 
     # Services pour exécuter Xvfb en mode headless
     services:
@@ -46,16 +46,21 @@ jobs:
     - name: Build with Gradle
       run: gradle build
 
-    # Exécution des tests avec un navigateur Selenium (ou autre outil graphique)
-    - name: Run Selenium Tests
-      run: |
-        # Exemple si tu as des tests Selenium qui nécessitent une interface graphique
-        # Cette commande lance Selenium dans un environnement headless
-        gradle test --tests "com.example.YourTest"  # Remplace avec ton propre test
+    # Initialisation de CodeQL
+    - name: Initialize CodeQL
+      uses: github/codeql-action/init@v3
+      with:
+        languages: java
+        build-mode: manual  # Nécessaire car CodeQL ne peut pas auto-builder tous les projets
 
-    # Publier le rapport des tests comme artefact
-    - name: Upload test report
+    # Exécution de l'analyse CodeQL
+    - name: Run CodeQL Analysis
+      uses: github/codeql-action/analyze@v3
+
+    # Publier le rapport CodeQL
+    - name: Upload CodeQL Report
       uses: actions/upload-artifact@v4
       with:
-        name: test-report
-        path: app/build/reports/tests/test/index.html
+        name: codeql-report
+        path: codeql-results.sarif
+
