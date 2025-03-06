@@ -16,6 +16,16 @@ jobs:
       security-events: write  # Requis pour créer les rapports de sécurité
       contents: read
 
+    # Services pour exécuter Xvfb en mode headless
+    services:
+      xvfb:
+        image: selenium/standalone-chrome:latest
+        options: -e VNC_SERVER=true -e VNC_PORT=5900
+
+    env:
+      DISPLAY: ":99.0"  # Set display for Xvfb to avoid GUI issues in headless environment
+
+
     steps:
     - name: Checkout repository
       uses: actions/checkout@v4
@@ -30,6 +40,7 @@ jobs:
     # Configuration de Gradle
     - name: Setup Gradle
       uses: gradle/actions/setup-gradle@v3
+
 
     # Compilation du projet pour générer les fichiers nécessaires à CodeQL
     - name: Build project with Gradle
